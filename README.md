@@ -13,7 +13,7 @@ docker image -t esp-idf-env .
 1. Once the environment is built, run the following command to initialize a container with the necessary files:
 
 ```bash
-docker run -it --privileged --name esp-env -v $PWD:/opt/esp-idf/examples/csec-741 esp-idf-env
+docker run -it --privileged --name esp-env -v $PWD/esp:/opt/esp-idf/examples/csec-741 esp-idf-env
 ```
 
 1. Once this is running, simply run `. ./export.sh` to finish preparing the container. You are now ready to navigate into `/opt/esp-idf/examples/csec-741`, `cd` into any of the sub directories, and attempt a build.
