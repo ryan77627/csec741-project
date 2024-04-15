@@ -1,0 +1,10 @@
+===============================
+======= How to configure ======
+===============================
+
+Using the command `idf.py menuconfig`, you can configure the following parameters:
+
+- UART Ports
+- UART Baud Rate
+- UART Parity settings
+- UART Flow control settings
