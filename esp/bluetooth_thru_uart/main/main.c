@@ -43,6 +43,8 @@ static const char *TAG = "UART TEST";
 #include "time.h"
 #include "sys/time.h"
 
+// Setup device parameters, etc.
+
 #define SPP_TAG "SPP_ACCEPTOR_DEMO"
 #define SPP_SERVER_NAME "SPP_SERVER"
 #define EXAMPLE_DEVICE_NAME "AirPods Pro"
@@ -240,8 +242,11 @@ void app_main(void)
 
     ESP_ERROR_CHECK(esp_bt_controller_mem_release(ESP_BT_MODE_BLE));
 
+    // Set MAC address to spoof
     esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
-    uint8_t new_mac[8] = {0xF0,0xD3,0x1F,0x86,0xF9,0x98};
+    uint8_t new_mac[8] = {0xF0,0xD3,0x1F,0x86,0xF9,0x98}; // hard-coded
+							  // for now.
+    
     esp_base_mac_addr_set(new_mac);
     if ((ret = esp_bt_controller_init(&bt_cfg)) != ESP_OK) {
         ESP_LOGE(SPP_TAG, "%s initialize controller failed: %s", __func__, esp_err_to_name(ret));
