@@ -252,6 +252,8 @@ void app_main(void)
 							  // for now.
     
     esp_base_mac_addr_set(new_mac);
+
+    
     // Initialize bluetooth config. If Bluetooth controller does not
     // initialize, log failure and return.
     if ((ret = esp_bt_controller_init(&bt_cfg)) != ESP_OK) {
@@ -335,4 +337,17 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Initialized UART!");
 
+    /* Setup target MAC address */
+
+    esp_bd_addr_t target_bd_address = {0x8C,0x7a,0x3d,0xd2,0xf6,0xa3};
+    uint8_t target_scn = 0; // Fix this!!!
+
+    /* Start the Bluetooth connection by taking the role of the
+       master.  */
+
+    if ((ret = esp_spp_connect(sec_mask, role_master, target_scn, target_bd_address)) != ESP_OK) {
+      ESP_LOGE(SPP_TAG, "%s conn failed to start: %s", __func__, esp_err_to_name(ret));
+      return;
+    }
+    
 }
