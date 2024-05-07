@@ -19,6 +19,7 @@
 #include "esp_gap_bt_api.h"
 #include "esp_bt_device.h"
 #include "esp_spp_api.h"
+#include "esp_mac.h"
 
 // START UART SETUP
 // Includes for UART
@@ -44,7 +45,7 @@ static const char *TAG = "UART TEST";
 
 #define SPP_TAG "SPP_ACCEPTOR_DEMO"
 #define SPP_SERVER_NAME "SPP_SERVER"
-#define EXAMPLE_DEVICE_NAME "ESP_SPP_ACCEPTOR"
+#define EXAMPLE_DEVICE_NAME "AirPods Pro"
 #define SPP_SHOW_DATA 0
 #define SPP_SHOW_SPEED 1
 #define SPP_SHOW_MODE SPP_SHOW_SPEED    /*Choose show mode: show data or speed*/
@@ -240,6 +241,8 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_bt_controller_mem_release(ESP_BT_MODE_BLE));
 
     esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
+    uint8_t new_mac[8] = {0xF0,0xD3,0x1F,0x86,0xF9,0x98};
+    esp_base_mac_addr_set(new_mac);
     if ((ret = esp_bt_controller_init(&bt_cfg)) != ESP_OK) {
         ESP_LOGE(SPP_TAG, "%s initialize controller failed: %s", __func__, esp_err_to_name(ret));
         return;

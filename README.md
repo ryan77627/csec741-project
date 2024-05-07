@@ -7,7 +7,7 @@
 1. Run the following command to set up your development environment:
 
 ```bash
-docker image -t esp-idf-env .
+docker build -t esp-idf-env .
 ```
 
 1. Once the environment is built, run the following command to initialize a container with the necessary files:
