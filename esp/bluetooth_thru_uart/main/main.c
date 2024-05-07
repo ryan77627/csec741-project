@@ -55,11 +55,15 @@ static const char *TAG = "UART TEST";
 static const esp_spp_mode_t esp_spp_mode = ESP_SPP_MODE_CB;
 static const bool esp_spp_enable_l2cap_ertm = true;
 
+// Time comparison variables for print_speed.
 static struct timeval time_new, time_old;
 static long data_num = 0;
 
+// Define security setting mask (authentication mode)
 static const esp_spp_sec_t sec_mask = ESP_SPP_SEC_AUTHENTICATE;
+// Define role (can be master or slave, set to slave for now)
 static const esp_spp_role_t role_slave = ESP_SPP_ROLE_SLAVE;
+static const esp_spp_role_t role_master = ESP_SPP_ROLE_MASTER;
 
 static char *bda2str(uint8_t * bda, char *str, size_t size)
 {
@@ -248,16 +252,19 @@ void app_main(void)
 							  // for now.
     
     esp_base_mac_addr_set(new_mac);
+    // Initialize bluetooth config. If Bluetooth controller does not
+    // initialize, log failure and return.
     if ((ret = esp_bt_controller_init(&bt_cfg)) != ESP_OK) {
         ESP_LOGE(SPP_TAG, "%s initialize controller failed: %s", __func__, esp_err_to_name(ret));
         return;
     }
-
+    // Enable BT Classic. Log failure and return otherwise.
     if ((ret = esp_bt_controller_enable(ESP_BT_MODE_CLASSIC_BT)) != ESP_OK) {
         ESP_LOGE(SPP_TAG, "%s enable controller failed: %s", __func__, esp_err_to_name(ret));
         return;
     }
 
+    // Initialize Bluedroid config
     esp_bluedroid_config_t bluedroid_cfg = BT_BLUEDROID_INIT_CONFIG_DEFAULT();
 #if (CONFIG_EXAMPLE_SSP_ENABLED == false)
     bluedroid_cfg.ssp_en = false;
